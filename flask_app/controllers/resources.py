@@ -1,8 +1,13 @@
-import resource
-from django.shortcuts import render
 from flask_app import app
 from flask import render_template, redirect, session, request, flash
+
+from flask_app.models.representative import Representative
 from ..models import user, resource
+import requests
+import os 
+from dotenv import load_dotenv
+import json
+load_dotenv()
 
 # renders page for all rources
 @app.route('/resources')
@@ -19,7 +24,7 @@ def new_resources():
 
 # creates a new resource
 @app.route("/resources/create", methods = ["POST"])
-def create_resource(data):
+def create_resource():
     if "user_id" not in session:
         return redirect("/")
     # TODO: add validations
@@ -33,12 +38,12 @@ def create_resource(data):
 def edit_resource(resource_id):
     if "user_id" not in session:
         return redirect("/")
-    return render_template("<<Insert html title here>>", user = user.user.get_by_id({"id":session['user_id']}) resource = resource.resource.get_by_id({"id":resource_id}))
+    return render_template("<<Insert html title here>>", user = user.user.get_by_id({"id":session['user_id']}), resource = resource.resource.get_by_id({"id":resource_id}))
 
 
 # updates resource
 @app.route('/resouces/<resource_id>/update')
-def edit_resource(resource_id):
+def update_resource(resource_id):
     if "user_id" not in session:
         return redirect("/")
     user = user.user.get_by_id({"id":session['user_id']})
@@ -58,3 +63,5 @@ def destroy_resource(resource_id):
         return redirect("/")
     resource.Resource.destroy({"id":resource_id})
     return redirect(f"resources/")
+
+
