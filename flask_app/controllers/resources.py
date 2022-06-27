@@ -11,7 +11,9 @@ import json
 load_dotenv()
 
 # renders page for all rources
-
+@app.route('/')
+def redirect():
+  return redirect('/resources')
 
 @app.route('/resources')
 def all_resources():
@@ -46,14 +48,14 @@ def create_resource():
 
 
 # reneders edit page
-@app.route('/resouces/<resource_id>/edit')
+@app.route('/resources/<resource_id>/edit')
 def edit_resource(resource_id):
     
     return render_template("edit_resource.html", user=user.user.get_by_id({"id": session['user_id']}), resource=resource.resource.get_by_id({"id": resource_id}))
 
 
 # updates resource
-@app.route('/resouces/<resource_id>/update')
+@app.route('/resources/update')
 def update_resource(resource_id):
     
     user = user.user.get_by_id({"id": session['user_id']})
@@ -67,7 +69,7 @@ def update_resource(resource_id):
 # deletes a resource
 
 
-@app.route('/resouces/<resource_id>/destroy')
+@app.route('/resources/<resource_id>/destroy')
 def destroy_resource(resource_id):
     user = user.user.get_by_id({"id": session['user_id']})
     resource = resource.resource.get_by_id({"id": resource_id})
