@@ -19,6 +19,10 @@ def index():
 @app.route("/representatives/search", methods=["POST"])
 def rep_search():
     key = os.getenv("API_KEY")
+    # TODO: once registration is up, uncomment 23 and 25
+    # temp = session['user_id']
+    session.clear()
+    # session['user_id'] = temp
     response = requests.get(
         f"https://civicinfo.googleapis.com/civicinfo/v2/representatives?address={request.form['zip']}&levels=country&roles=legislatorLowerBody&roles=legislatorUpperBody&key={key}")
     print(response.status_code)
@@ -26,18 +30,27 @@ def rep_search():
         return redirect("/search")
     officials = response.json()['officials']
     print(officials)
-    session['sen_one'] = officials[0]
-    session['sen_two'] = officials[1]
-    session['house'] = officials[2]
+    if len(officials) < 3:
+        session['sen_one'] = officials[0]
+        session['sen_two'] = officials[1]
+    
+    if len(officials) == 3:
+        session['sen_one'] = officials[0]
+        session['sen_two'] = officials[1]
+        session['house'] = officials[2]
 
     return redirect("/contact")
 
 
 @app.route("/contact")
 def contact_reps():
+    
     sen_one = Representative(session['sen_one'])
     sen_two = Representative(session['sen_two'])
-    house = Representative(session['house'])
-    all_officials = [sen_one, sen_two, house]
+    all_officials = [sen_one, sen_two]
+    if "house" in session:
+        house = Representative(session['house'])
+        all_officials.append(house)
+    
 
     return render_template("contact.html", officials=all_officials)

@@ -11,43 +11,78 @@
 <body>  
     <div class="container">
         <a href="/search">Back</a>
-        {% for off in officials %}
-            {% if loop.last %}  
-                <h1>Your House Representative</h1> 
-            {% else %}
-                <h1>Your Senator</h1>      
-            {% endif %}
-            <p>{{ off.url_photo }}</p>
-            {% if off.url_photo %}
-            <img src="{{ off.url_photo }}" alt="">
-                
-            {% endif %}
-            
-            <h3>{{ off.name }}</h3>
-            <h4>{{ off.party }}</h4>
-            <h5>Contact Phones:</h5>
-            
-            {% for phone in off.phones %}
-                <p>{{ phone }}</p>
-            {% endfor %}
-            <h5>Mailing Address</h5>
-                {% for add in off.address %}
-                <address>
-                    ATTN: {{ off.name }}<br>
-                    {{ add.line1 }}<br>
-                    {{ add.city }}, {{ add.state }} {{ add.zip }}
-                </address>
-                    
-                {% endfor %}
-            <h5>Links:</h5>
-            {% for url in off.urls %}
-                <li><a href="{{url}}" target="_blank">{{url}}</a></li>
-            {% endfor %}
-            
-            <hr>
-            
-        {% endfor %}
+        {% if officials|length > 2 %}
         
+            {% for off in officials %}
+                
+                {% if loop.last %}  
+                    <h1>Your House Representative</h1> 
+                {% else %}
+                    <h1>Your Senator</h1>      
+                {% endif %}
+                
+                {% if off.url_photo %}
+                <img src="{{ off.url_photo }}" alt="">
+                    
+                {% endif %}
+                
+                <h3>{{ off.name }}</h3>
+                <h4>{{ off.party }}</h4>
+                <h5>Contact Phones:</h5>
+                
+                {% for phone in off.phones %}
+                    <p>{{ phone }}</p>
+                {% endfor %}
+                <h5>Mailing Address</h5>
+                    {% for add in off.address %}
+                    <address>
+                        ATTN: {{ off.name }}<br>
+                        {{ add.line1 }}<br>
+                        {{ add.city }}, {{ add.state }} {{ add.zip }}
+                    </address>
+                        
+                    {% endfor %}
+                <h5>Links:</h5>
+                {% for url in off.urls %}
+                    <li><a href="{{url}}" target="_blank">{{url}}</a></li>
+                {% endfor %}
+                
+                <hr>
+                
+            {% endfor %}
+            
+        {% else %}
+            {% for off in officials %}
+                <h1>Your Senator</h1>  
+                
+                {% if off.url_photo %}
+                <img src="{{ off.url_photo }}" alt="">
+                    
+                {% endif %}
+                
+                <h3>{{ off.name }}</h3>
+                <h4>{{ off.party }}</h4>
+                <h5>Contact Phones:</h5>
+                
+                {% for phone in off.phones %}
+                    <p>{{ phone }}</p>
+                {% endfor %}
+                <h5>Mailing Address</h5>
+                    {% for add in off.address %}
+                    <address>
+                        ATTN: {{ off.name }}<br>
+                        {{ add.line1 }}<br>
+                        {{ add.city }}, {{ add.state }} {{ add.zip }}
+                    </address>
+                        
+                    {% endfor %}
+                <h5>Links:</h5>
+                {% for url in off.urls %}
+                    <li><a href="{{url}}" target="_blank">{{url}}</a></li>
+                {% endfor %}
+            {% endfor %}
+            <h1>No House of Representatives Info to show</h1>
+        {% endif %}
     </div>
     
 </body>
