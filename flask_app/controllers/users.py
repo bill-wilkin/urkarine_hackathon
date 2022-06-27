@@ -6,4 +6,3 @@ from flask_app.models.resource import Resource
 from flask_app.models.representative import Representative
 
 
-@app.route('/')

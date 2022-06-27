@@ -21,7 +21,7 @@ def rep_search():
     key = os.getenv("API_KEY")
     response = requests.get(
         f"https://civicinfo.googleapis.com/civicinfo/v2/representatives?address={request.form['zip']}&levels=country&roles=legislatorLowerBody&roles=legislatorUpperBody&key={key}")
-    print(response.status_code)
+    print(response)
     if str(response.status_code)[0] == '4' or str(response.status_code)[0] == '5':
         return redirect("/search")
     officials = response.json()['officials']

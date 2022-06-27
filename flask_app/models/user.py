@@ -10,7 +10,8 @@ class User:
   db = os.getenv('DATABASE_NAME')
   def __init__(self,data):
     self.id = data['id']
-    self.username = data['username']
+    self.first_name = data['first_name']
+    self.last_name = data['last_name']
     self.email = data['email']
     self.created_at = data['created_at']
     self.updated_at = data['updated_at']
@@ -18,7 +19,7 @@ class User:
     
     @classmethod
     def save(cls,data):
-      query = 'INSERT INTO user (username, email, wants_updates) VALUES (%(username)s, %(email)s, %(wants_updates)s);'
+      query = 'INSERT INTO user (first_name, last_name, email, wants_updates) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(wants_updates)s);'
       return connectToMySQL(cls.db).query_db(query,data)
 
     @classmethod
@@ -37,7 +38,10 @@ class User:
       if not EMAIL_REGEX.match(user['email']):
         flash("Invalid Email format")
         is_valid = False
-      if len(user['username']) < 2:
-        flash("Username needs at least 2 characters")
+      if len(user['first_name']) < 2:
+        flash("First name needs at least 2 characters")
+        is_valid = False
+      if len(user['last_name']) < 2:
+        flash("Last name needs at least 2 characters")
         is_valid = False
       return is_valid
