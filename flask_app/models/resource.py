@@ -35,7 +35,7 @@ class Resource:
 
     @classmethod
     def create_resource(cls, data):
-        query = "INSERT INTO resources (name, description, link, country, is_active, type, category;"
+        query = "INSERT INTO resources (name, description, link, country, is_active, type, category, user_id) VALUES (%(name)s, %(description)s, %(link)s, %(country)s, %(is_active)s, %(type)s, %(category)s, %(user_id)s);"
         return connectToMySQL(cls.db).query_db(query, data)
 
     @classmethod
@@ -47,3 +47,4 @@ class Resource:
     def destroy(cls, data):
         query = "DELETE FROM resources WHERE id = %(id)s"
         return connectToMySQL(cls.db).query_db(query, data)
+

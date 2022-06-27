@@ -18,7 +18,7 @@ class User:
     
     @classmethod
     def save(cls,data):
-      query = 'INSERT INTO user (username, email, wants_updates) VALUES (%(username)s, %(email)s, %(wants_updates)s);'
+      query = 'INSERT INTO user (first_name, last_name, email, wants_updates) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(wants_updates)s);'
       return connectToMySQL(cls.db).query_db(query,data)
 
     @classmethod
@@ -28,6 +28,14 @@ class User:
       if len(results) < 1:
           return False
       return cls(results[0])
+
+    @classmethod
+    def get_by_email(cls, data):
+      query = "SELECT * FROM user WHERE email = %(email)s;"
+      results = connectToMySQL(cls.db).query_db(query, data)
+      if len(results)>0:
+        return cls(results[0])
+      return None
     
     @staticmethod
     def validate(user):
