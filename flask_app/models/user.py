@@ -20,7 +20,7 @@ class User:
         self.wants_updates = data['wants_updates']
 
     @classmethod
-    def save(cls, data):
+    def create_user(cls, data):
         query = 'INSERT INTO users (first_name, last_name, email, wants_updates) VALUES (%(first_name)s, %(last_name)s, %(email)s, %(wants_updates)s);'
         return connectToMySQL(cls.db).query_db(query, data)
 
@@ -39,6 +39,11 @@ class User:
         if len(results) > 0:
             return cls(results[0])
         return False
+
+    @classmethod
+    def update_preference(cls, data):
+        query= "UPDATE users SET wants_updates= %(wants_updates)s WHERE id = %(id)s;"
+        return connectToMySQL(cls.db).query_db(query, data)
 
     @staticmethod
     def validate_user(user):

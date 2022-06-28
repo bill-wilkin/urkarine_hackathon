@@ -36,7 +36,7 @@ class Resource:
 
     @classmethod
     def create_resource(cls, data):
-        query = "INSERT INTO resources (name, description, link, country, is_active, type, category, user_id) VALUES (%(name)s, %(description)s, %(link)s, %(country)s, %(is_active)s, %(type)s, %(category)s, %(user_id)s);"
+        query = "INSERT INTO resources (name, description, link, country, is_active, type, category, user_id) VALUES (%(name)s, %(description)s, %(link)s, %(country)s, 1, %(type)s, %(category)s, %(user_id)s);"
         return connectToMySQL(cls.db).query_db(query, data)
 
     @classmethod
