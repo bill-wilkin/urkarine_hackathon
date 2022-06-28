@@ -51,14 +51,16 @@
         <div class="row row-cols-3" style="margin-top: 35px">
             <div class="col">
                 <div class="card text-dark bg-light mb-3" style="max-width: 18rem">
-                    <div class="card-header">Header</div>
+                  {% for r in resources %}  
+                  <div class="card-header">{{r.name}}</div>
                     <div class="card-body">
-                        <h5 class="card-title">Light card title</h5>
+                        <h5 class="card-title">{{r.type}}</h5>
                         <p class="card-text">
-                            Some quick example text to build on the card title and make up
-                            the bulk of the card's content.
+                            {{r.description}}
+                            {{r.link}}
                         </p>
                     </div>
+                  {% endfor %}
                 </div>
             </div>
         <div class="col">
@@ -82,8 +84,6 @@
                   Some quick example text to build on the card title and make up
                 the bulk of the card's content.
             </p>
-            <!-- need something like this -->
-            <!-- <a href="/resources/new'"><button>Add Resources</button></a> -->
         </div>
     </div>
 </div>
