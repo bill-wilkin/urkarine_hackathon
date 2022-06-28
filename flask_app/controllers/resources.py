@@ -23,7 +23,7 @@ def redirect_main():
 @app.route('/resources')
 def all_resources():
 
-    return render_template("resources.html", all_resources = resource.Resource.get_all())
+    return render_template("resources.html", all_resources = resource.Resource.get_all(), all_categories = resource.Resource.get_categories())
 
 # renders page for adding a new resource
 
@@ -85,3 +85,8 @@ def destroy_resource(resource_id):
         return redirect("/")
     resource.Resource.destroy({"id": resource_id})
     return redirect(f"resources/")
+
+@app.route('/filter/<string:category>')
+def filter_cat(category):
+   
+    return render_template("resources.html", all_resources = resource.Resource.get_by_cat({"category": category}), all_categories = resource.Resource.get_categories())

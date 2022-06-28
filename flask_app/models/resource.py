@@ -49,6 +49,20 @@ class Resource:
         query = "DELETE FROM resources WHERE id = %(id)s"
         return connectToMySQL(cls.db).query_db(query, data)
 
+    @classmethod
+    def get_categories(cls):
+        query = "select distinct category from resources;"
+        return connectToMySQL(cls.db).query_db(query)
+
+    @classmethod
+    def get_by_cat(cls, data):
+        query = "select * from resources where category = %(category)s;"
+        results = connectToMySQL(cls.db).query_db(query, data)
+        resources = []
+        for row in results:
+            resources.append(cls(row))
+        return resources
+
     @staticmethod
     def validate_resource(link):
       is_valid = True
