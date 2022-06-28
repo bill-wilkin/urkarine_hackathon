@@ -16,13 +16,13 @@ class Resource:
         self.updated_at = data['updated_at']
         self.type = data['type']
         self.category = data['category']
-        self.user = user.user.get_by_id(data['user_id'])
+        self.user = user.User.get_one({'id':data['user_id']})
 
     
     @classmethod
     def get_all(cls):
         query = "SELECT * FROM resources;"
-        results = connectToMySQL(cls.db).query_db()
+        results = connectToMySQL(cls.db).query_db(query)
         resources = []
         for row in results:
             resources.append(cls(row))
