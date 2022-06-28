@@ -4,8 +4,8 @@ from flask import render_template, redirect, session, request, flash
 
 from flask_app.models.representative import Representative
 from ..models import user, resource
-from flask_app.models.user import User
-from flask_app.models.resource import Resource
+from flask_app.models import user, resource
+
 import requests
 import os
 from dotenv import load_dotenv
@@ -22,10 +22,10 @@ def redirect_main():
 
 @app.route('/resources')
 def all_resources():
-    resource = Resource.get_all()
-    return render_template("resources.html")
 
-# renders page for adding a new rource
+    return render_template("resources.html", all_resources = resource.Resource.get_all())
+
+# renders page for adding a new resource
 
 
 @app.route('/resources/new')
@@ -42,7 +42,7 @@ def create_resource():
         new_user_id = existing_users.id
     else:
         new_user_id = user.User.create_user(request.form)
-    if not User.validate(request.form):
+    if not user.User.validate(request.form):
       return redirect('/resource')
 
     data = request.form.to_dict()

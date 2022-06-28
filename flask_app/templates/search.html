@@ -17,11 +17,12 @@
         <nav class="navbar navbar-light" style="background-color: #e3f2fd; list-style: none; display: flex; justify-content: space-evenly;">
         <li class="nav-item">
           <a class="nav-link active" aria-current="page" href="/resources" style="color: black; font-size: large;
-          font-weight: 500;">Home</a>
+          font-weight: 500;"><button class = "btn btn-primary">Home</button></a>
         </li>
+        
     <form class="d-flex"  action="/representatives/search" method = "POST">
             <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-            <input  class="form-control me-2" type="number" name="zip" id="">
+            <input  placeholder = "Zip Code" class="form-control me-2" type="number" name="zip" id="">
       <button class="btn btn-outline-success" type="submit">Search</button>
     </form>
       </ul>
@@ -29,7 +30,74 @@
 
 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="margin-top:20px; margin-left: 267px; max-width: 800px;  ">
   <div class="carousel-inner" style="margin-left: 240px;">
+    
+        
+    
+    
+    {% for off in officials %}
+    {% if loop.first %}
     <div class="carousel-item active">
+        {% if off.url_photo %}
+            <img src="{{ off.url_photo }}" class="d-block w-100" alt="picture of {{off.name}}" style="max-width: 300px; max-height:300px;">
+        {% endif %}
+        <h3>{{ off.name }}</h3>
+                <h4>{{ off.party }}</h4>
+                <h5>Contact Phones:</h5>
+                
+                {% for phone in off.phones %}
+                    <p>{{ phone }}</p>
+                {% endfor %}
+                <h5>Mailing Address</h5>
+                    {% for add in off.address %}
+                    <address>
+                        ATTN: {{ off.name }}<br>
+                        {{ add.line1 }}<br>
+                        {{ add.city }}, {{ add.state }} {{ add.zip }}
+                    </address>
+                        
+                    {% endfor %}
+                <h5>Links:</h5>
+                {% for url in off.urls %}
+                    <li><a href="{{url}}" target="_blank">{{url}}</a></li>
+                {% endfor %}
+      </div>
+      {% else %}
+    
+   
+        <div class="carousel-item ">
+            {% if off.url_photo %}
+            <img src="{{ off.url_photo }}" class="d-block w-100" alt="picture of {{off.name}}" style="max-width: 300px; max-height:300px;">
+      
+    {% endif %}
+            
+            
+            
+            <h3>{{ off.name }}</h3>
+            <h4>{{ off.party }}</h4>
+            <h5>Contact Phones:</h5>
+                        
+            {% for phone in off.phones %}
+                <p>{{ phone }}</p>
+            {% endfor %}
+            <h5>Mailing Address</h5>
+                {% for add in off.address %}
+                <address>
+                    ATTN: {{ off.name }}<br>
+                    {{ add.line1 }}<br>
+                    {{ add.city }}, {{ add.state }} {{ add.zip }}
+                </address>
+                    
+                {% endfor %}
+            <h5>Links:</h5>
+            {% for url in off.urls %}
+                <li><a href="{{url}}" target="_blank">{{url}}</a></li>
+            {% endfor %}
+        </div>        
+      {% endif %}
+    {% endfor %}
+
+   
+    <!-- <div class="carousel-item active">
       <img src="https://thumbs.dreamstime.com/z/small-frog-fishing-rod-ornament-green-lake-high-quality-photo-196683129.jpg" class="d-block w-100" alt="frog fishing" style="max-width: 300px; max-height:300px;">
     </div>
     <div class="carousel-item">
@@ -38,7 +106,7 @@
     <div class="carousel-item">
       <img src="https://thescranline.com/wp-content/uploads/2021/03/Dancing-Queen-Cupcakes.jpg" class="d-block w-100" alt="rainbow cupcake" style="max-width: 300px; max-height:300px;">
     </div>
-  </div>
+  </div> -->
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true" style="background-color: black;"></span>
     <span class="visually-hidden">Previous</span>
