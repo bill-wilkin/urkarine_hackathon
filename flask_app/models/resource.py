@@ -1,6 +1,7 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from ..models import user
 import os
+from flask import flash
 
 class Resource:
     db = os.getenv('DATABASE_NAME')
@@ -49,17 +50,14 @@ class Resource:
         return connectToMySQL(cls.db).query_db(query, data)
 
     @staticmethod
-    def validate_resource(user):
+    def validate_resource(link):
       is_valid = True
       query = 'SELECT * FROM resource WHERE id = %(id)s;'
-      results = connectToMySQL(User.db).query_db(query, user)
-      if not EMAIL_REGEX.match(user['email']):
-        flash("Invalid Email format")
+      results = connectToMySQL(Resource.db).query_db(query, user)
+      if len(link['first_name']) < 2:
+        flash("Name is required")
         is_valid = False
-      if len(user['first_name']) < 2:
-        flash("First name needs at least 2 characters")
-        is_valid = False
-      if len(user['last_name']) < 2:
-        flash("Last name needs at least 2 characters")
+      if len(link['name']) < 2:
+        flash("Must enter a link")
         is_valid = False
       return is_valid
