@@ -37,18 +37,20 @@ def new_resources():
 @app.route("/resources/create", methods=["POST"])
 def create_resource():
     # check to see if the user is in the database
-    existing_users = user.User.get_by_email(request.form['email'])
+    existing_users = user.User.get_by_email({'email':request.form['email']})
     if existing_users:
         new_user_id = existing_users.id
     else:
         new_user_id = user.User.create_user(request.form)
-    if not user.User.validate(request.form):
+    if not user.User.validate_user(request.form):
       return redirect('/resource')
 
     data = request.form.to_dict()
     print(data)
     data['user_id'] = new_user_id
     resource.Resource.create_resource(data)
+    
+    user.User.update_preference({"wants_updates": request.form['wants_updates'], "id":new_user_id})
 
     return redirect("/resources")
 
