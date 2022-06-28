@@ -10,6 +10,7 @@
       integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
       crossorigin="anonymous"
     />
+    <link rel="stylesheet" href="{{url_for('static', filename = 'css/style.css')}}">
     <title>Document</title>
 </head>
 <body>
@@ -33,10 +34,15 @@
 <!-- Carousel -->
 <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel" style="margin-top:20px; margin-left: 267px; max-width: 800px;  ">
   <div class="carousel-inner" style="margin-left: 240px;">
+
+    {% for off in officials %}
+    {% if loop.first %}
+
     <!-- slide 1 -->
     <div class="carousel-item active">
+
         {% if off.url_photo %}
-            <img src="{{ off.url_photo }}" class="d-block w-100" alt="picture of {{off.name}}" style="max-width: 300px; max-height:300px;">
+            <img src="{{ off.url_photo }}"  class="d-block w-100" alt="picture of {{off.name}}" style="max-width: 300px; margin: 0, auto; max-height:300px;">
         {% endif %}
         <h3>{{ off.name }}</h3>
                 <h4>{{ off.party }}</h4>
@@ -62,9 +68,9 @@
       {% else %}
     
    
-        <div class="carousel-item ">
+        <div class="carousel-item">
             {% if off.url_photo %}
-            <img src="{{ off.url_photo }}" class="d-block w-100" alt="picture of {{off.name}}" style="max-width: 300px; max-height:300px;">
+            <img src="{{ off.url_photo }}" class="d-block w-100;" alt="picture of {{off.name}}" style="max-width: 300px; margin: 0, auto; max-height:300px;">
       
     {% endif %}
             
