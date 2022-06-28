@@ -28,10 +28,12 @@
           >
             Filter
           </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">  
+            <li><a class="dropdown-item" href="/resources">All Categories</a></li>
+            {% for cat in all_categories %}
+            <li><a class="dropdown-item" href="/filter/{{ cat.category }}">{{ cat.category }}</a></li>
+            {% endfor %}
+            
           </ul>
         </div>
         <li class="nav-item">
