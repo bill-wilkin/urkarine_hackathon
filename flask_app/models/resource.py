@@ -1,6 +1,7 @@
 from flask_app.config.mysqlconnection import connectToMySQL
 from ..models import user
 import os
+from flask import flash
 
 class Resource:
     db = os.getenv('DATABASE_NAME')
@@ -48,3 +49,15 @@ class Resource:
         query = "DELETE FROM resources WHERE id = %(id)s"
         return connectToMySQL(cls.db).query_db(query, data)
 
+    @staticmethod
+    def validate_resource(link):
+      is_valid = True
+      query = 'SELECT * FROM resource WHERE id = %(id)s;'
+      results = connectToMySQL(Resource.db).query_db(query, user)
+      if len(link['first_name']) < 2:
+        flash("Name is required")
+        is_valid = False
+      if len(link['name']) < 2:
+        flash("Must enter a link")
+        is_valid = False
+      return is_valid

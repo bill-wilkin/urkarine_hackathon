@@ -39,7 +39,7 @@ class User:
       return None
     
     @staticmethod
-    def validate(user):
+    def validate_user(user):
       is_valid = True
       query = 'SELECT * FROM user WHERE email = %(email)s;'
       results = connectToMySQL(User.db).query_db(query, user)
