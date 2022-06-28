@@ -29,6 +29,14 @@ class User:
       if len(results) < 1:
           return False
       return cls(results[0])
+
+    @classmethod
+    def get_by_email(cls, data):
+      query = "SELECT * FROM user WHERE email = %(email)s;"
+      results = connectToMySQL(cls.db).query_db(query, data)
+      if len(results)>0:
+        return cls(results[0])
+      return None
     
     @staticmethod
     def validate(user):

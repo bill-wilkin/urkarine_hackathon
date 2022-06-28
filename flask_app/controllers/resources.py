@@ -1,3 +1,4 @@
+from operator import ne
 from flask_app import app
 from flask import render_template, redirect, session, request, flash
 
@@ -10,9 +11,12 @@ import json
 load_dotenv()
 
 # renders page for all rources
+
+
 @app.route('/')
 def redirect():
-  return redirect('/resources')
+    return redirect('/resources')
+
 
 @app.route('/resources')
 def all_resources():
@@ -23,18 +27,25 @@ def all_resources():
 
 @app.route('/resources/new')
 def new_resources():
-    if "user_id" not in session:
-        return redirect("/")
+
     return render_template("new_resource.html")
 
 
 # creates a new resource
 @app.route("/resources/create", methods=["POST"])
 def create_resource():
-    if "user_id" not in session:
-        return redirect("/")
+    # check to see if the user is in the database
+    existing_users = user.User.get_by_email(request.form['email'])
+    if existing_users:
+        new_user_id = existing_users.id
+    else:
+        new_user_id = user.User.create_user(request.form)
     # TODO: add validations
-    resource.Resource.create_resource(request.form)
+
+    data = request.form.to_dict()
+    print(data)
+    data['user_id'] = new_user_id
+    resource.Resource.create_resource(data)
 
     return redirect("/resources")
 
@@ -42,16 +53,14 @@ def create_resource():
 # reneders edit page
 @app.route('/resources/<resource_id>/edit')
 def edit_resource(resource_id):
-    if "user_id" not in session:
-        return redirect("/")
+
     return render_template("edit_resource.html", user=user.user.get_by_id({"id": session['user_id']}), resource=resource.resource.get_by_id({"id": resource_id}))
 
 
 # updates resource
 @app.route('/resources/update')
 def update_resource(resource_id):
-    if "user_id" not in session:
-        return redirect("/")
+
     user = user.user.get_by_id({"id": session['user_id']})
     resource = resource.resource.get_by_id({"id": resource_id})
     if user.id != resource.user.id:
