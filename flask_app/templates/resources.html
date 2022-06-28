@@ -46,45 +46,29 @@
     </nav>
 
     <div class="container">
-        <a href="/resources/new" style="text-decoration: none;">
+        <!-- <a href="/resources/new" style="text-decoration: none;"> -->
         
         <div class="row row-cols-3" style="margin-top: 35px">
-            <div class="col">
-                <div class="card text-dark bg-light mb-3" style="max-width: 18rem">
-                    <div class="card-header">Header</div>
+          {% for r in all_resources %}  
+            <div class="col-4 h-100">
+                <div class="card text-dark bg-light mb-3" style="max-width: 18rem; height: 250px; overflow:scroll;">
+                  
+                  <div class="card-header">{{r.name}}</div>
                     <div class="card-body">
-                        <h5 class="card-title">Light card title</h5>
+                        <h5 class="card-title">{{r.type}}</h5>
                         <p class="card-text">
-                            Some quick example text to build on the card title and make up
-                            the bulk of the card's content.
+                            {{r.description}}
+                            <a href="{{r.link}}" target="_blank">{{r.link}}</a>
                         </p>
                     </div>
+                  </div>
                 </div>
+                  {% endfor %}
+                
             </div>
-        <div class="col">
-          <div class="card text-dark bg-light mb-3" style="max-width: 18rem">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-              <h5 class="card-title">Light card title</h5>
-              <p class="card-text">
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-            </div>
-        </div>
-        </div>
-        <div class="col">
-          <div class="card text-dark bg-light mb-3" style="max-width: 18rem">
-            <div class="card-header">Header</div>
-            <div class="card-body">
-                <h5 class="card-title">Light card title</h5>
-              <p class="card-text">
-                  Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-            </p>
-            <!-- need something like this -->
-            <!-- <a href="/resources/new'"><button>Add Resources</button></a> -->
-        </div>
+
+            <!-- original -->
+        
     </div>
 </div>
 </div>
