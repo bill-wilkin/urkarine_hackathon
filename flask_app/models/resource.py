@@ -48,3 +48,18 @@ class Resource:
         query = "DELETE FROM resources WHERE id = %(id)s"
         return connectToMySQL(cls.db).query_db(query, data)
 
+    @staticmethod
+    def validate_resource(user):
+      is_valid = True
+      query = 'SELECT * FROM resource WHERE id = %(id)s;'
+      results = connectToMySQL(User.db).query_db(query, user)
+      if not EMAIL_REGEX.match(user['email']):
+        flash("Invalid Email format")
+        is_valid = False
+      if len(user['first_name']) < 2:
+        flash("First name needs at least 2 characters")
+        is_valid = False
+      if len(user['last_name']) < 2:
+        flash("Last name needs at least 2 characters")
+        is_valid = False
+      return is_valid
